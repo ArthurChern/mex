@@ -1,7 +1,7 @@
-#### ssh配置文件的路径
+### ssh配置文件的路径
 * ~/.ssh/config
 
-#### 如何开启连接复用
+### 如何开启连接复用
 * 效果：第二次登录同一台机器不需要输入密码
 ```shell
 Host *
@@ -9,7 +9,7 @@ Host *
     ControlPath /tmp/ssh_connection_%h_%p_%r.sock
 ```
 
-#### 一份简单的ssh配置示例
+### 一份简单的ssh配置示例
 ```shell
 Host *
     ServerAliveInterval 80
@@ -37,6 +37,21 @@ Host login
     * User 配置项是为了防止每次都写用户名，对于本机用户和服务器用户不一致的情况非常适用
     * Host dev 配置项适用于开发机ip记不住，配置了就有别名了
 
-#### 在服务器上进行连接复用（tmux）
-* tmux在正常服务器上仅仅需要安装就行，但是在跳板机上因为没有权限，所以需要手动编译安装
-
+### 在服务器上进行连接复用（tmux）
+* tmux在正常服务器上仅仅需要安装就行，但是在跳板机上因为普通用户没有权限，所以需要手动从源码安装编译
+* tmux编译的唯一依赖就是libevent，所以在编译tmux之前需要先编译libevent(libevent可以在sourceforge上获取，tmux的包可以在github上获取。由于版本之间可能会出一些依赖，这两个包放在本工程的repo下面）
+```shell
+#常规套路编译
+./configure --prefix=/home/weirong.cwr/libevent
+make
+make install
+```
+* 关于怎么编译这些屎，configire -h 总是能给出当前命令的帮助文档。
+```shell
+./configure --prefix=/home/weirong.cwr/tmux2 --enable-static CFLAGS=-I/home/weirong.cwr/libevent/include LDFLAGS=-L/home/weirong.cwr/libevent/lib
+make && make install
+#如果configure不成功就使用下面的那个
+#./configure --prefix=/home/weirong.cwr/tmux2 --enable-static LIBEVENT_CFLAGS=-I/home/weirong.cwr/libevent/include LIBEVENT_LIBS=-L/home/weirong.cwr/libevent/lib
+```
+* 安装过程中一些典型报错的解决
+    * configure: error: "curses not found" ---> yum install ncurses-devel
