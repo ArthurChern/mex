@@ -1,2 +1,2 @@
-# mex
-A distributed monitoring system
+# mex (my extension)
+## 一些小笔记
