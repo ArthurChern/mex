@@ -55,3 +55,76 @@ make && make install
 ```
 * 安装过程中一些典型报错的解决
     * configure: error: "curses not found" ---> yum install ncurses-devel
+* 当然了，如果有同版本的os编译出来的二进制我才懒得去编译。
+* tmux配置文件目录~/.tmux.conf
+```shell
+#目前在用的配置
+# Statusbar properties.
+set -g display-time 3000
+set -g status-right "%m/%d %a %H:%M"
+set -g status-bg default
+set -g status-fg yellow
+set -g set-titles on
+set -g bell-action none
+set -g history-limit 5000
+set -g base-index 1
+setw -g automatic-rename off
+set -g status-utf8 on
+setw -g utf8 on
+set-window-option -g window-status-current-attr bright,reverse
+set-window-option -g window-status-current-bg black
+set-window-option -g window-status-current-fg green
+set-window-option -g automatic-rename off
+set-window-option -g utf8 on
+
+# Bind function keys.
+bind -n F2 prev
+bind -n F3 next
+bind-key -n C-left prev
+bind-key -n C-right next
+## switch pane
+bind-key -n M-left select-pane -L
+bind-key -n M-right select-pane -R
+bind-key -n M-up select-pane -U
+bind-key -n M-down select-pane -D
+bind-key -n C-\ split-window
+bind-key -n M-\ split-window -h
+
+bind-key -n C-F12 lock
+
+set -g history-limit 10000
+set -g terminal-overrides 'xterm*:smcup@:rmcup@'
+setw -g mode-keys vi
+
+#Pane之间切换的快捷键
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+#Pane大小调整快捷键
+bind < resize-pane -L 5
+bind > resize-pane -R 5
+bind _ resize-pane -D 5
+bind + resize-pane -U 5
+
+#窗口切分快捷键
+bind \ split-window -h
+bind - split-window -v
+#set -g prefix C-x
+### KEY map
+##F1: prev window
+#F2: next window
+# Ctrl+\: split window V
+# Alt+\: split window H
+# Ctrl+F12: lock session
+# Ctrl+Z+Left: resize pane left
+# Ctrl+Z+Right: resize pane right
+# Ctrl+Z+Up: resize pane up
+# Ctrl+Z+Down: resize pane down
+# Ctrl+Z then Left: switch to left pane
+# Ctrl+Z then Right: switch to right pane
+# Ctrl+Z then Up: switch to up pane
+# Ctrl+Z then Down: switch to down pane
+# Ctrl+Z then x: kill current pane or window
+```
